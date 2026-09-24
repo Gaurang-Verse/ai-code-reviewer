@@ -42,7 +42,7 @@ tests/                 # unit tests (mocked, no network or API key needed)
 1. Clone the repo and install dependencies:
 
    ```bash
-   git clone https://github.com/YOUR-USERNAME/ai-code-reviewer.git
+   git clone https://github.com/Gaurang-Verse/ai-code-reviewer.git
    cd ai-code-reviewer
    python -m venv venv && source venv/bin/activate
    pip install -r requirements-dev.txt
