@@ -34,7 +34,7 @@ CODE PATCH:
 
 # Models are tried in order; if one isn't available for the caller's API
 # key/region, we fall back to the next rather than failing outright.
-FALLBACK_MODELS = ("gemini-pro",)
+FALLBACK_MODELS = ("gemini-flash-latest",)
 
 
 class ReviewError(RuntimeError):
@@ -45,7 +45,7 @@ class CodeReviewer:
     def __init__(
         self,
         api_key: str,
-        model_name: str = "gemini-2.0-flash",
+        model_name: str = "gemini-flash-latest",
         max_retries: int = 3,
         base_wait_seconds: int = 30,
     ):

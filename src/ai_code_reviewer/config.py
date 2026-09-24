@@ -23,7 +23,7 @@ class ConfigError(RuntimeError):
 class Settings:
     github_token: str
     google_api_key: str
-    gemini_model: str = "gemini-2.0-flash"
+    gemini_model: str = "gemini-flash-latest"
     max_retries: int = 3
     base_retry_wait_seconds: int = 30
 
@@ -56,7 +56,7 @@ def load_settings() -> Settings:
     return Settings(
         github_token=github_token,
         google_api_key=google_api_key,
-        gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+        gemini_model=os.getenv("GEMINI_MODEL", "gemini-flash-latest"),
         max_retries=int(os.getenv("MAX_RETRIES", "3")),
         base_retry_wait_seconds=int(os.getenv("BASE_RETRY_WAIT_SECONDS", "30")),
     )
