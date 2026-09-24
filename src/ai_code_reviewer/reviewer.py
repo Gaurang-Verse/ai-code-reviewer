@@ -10,7 +10,8 @@ from __future__ import annotations
 import logging
 import time
 
-import google.generativeai as genai
+from google import genai
+from google.genai import errors as genai_errors
 
 from .github_client import FileChange
 
@@ -48,14 +49,16 @@ class CodeReviewer:
         max_retries: int = 3,
         base_wait_seconds: int = 30,
     ):
-        genai.configure(api_key=api_key)
+        self._client = genai.Client(api_key=api_key)
         self._model_name = model_name
         self._max_retries = max_retries
         self._base_wait_seconds = base_wait_seconds
 
     def _generate(self, model_name: str, prompt: str) -> str:
-        model = genai.GenerativeModel(model_name)
-        response = model.generate_content(prompt)
+        response = self._client.models.generate_content(
+            model=model_name,
+            contents=prompt,
+        )
         return response.text
 
     def _review_one_patch(self, filename: str, patch: str) -> str:
@@ -66,11 +69,10 @@ class CodeReviewer:
             try:
                 logger.info("Reviewing %s (attempt %d)", filename, attempt)
                 return self._generate(self._model_name, prompt)
-            except Exception as exc:  # noqa: BLE001 - SDK raises broad errors
+            except genai_errors.APIError as exc:
                 last_error = exc
-                message = str(exc)
 
-                if "429" in message or "RESOURCE_EXHAUSTED" in message:
+                if exc.code == 429:
                     wait = self._base_wait_seconds * attempt
                     logger.warning(
                         "Rate limited reviewing %s, waiting %ds", filename, wait
@@ -78,7 +80,7 @@ class CodeReviewer:
                     time.sleep(wait)
                     continue
 
-                if "404" in message:
+                if exc.code == 404:
                     for fallback in FALLBACK_MODELS:
                         try:
                             logger.warning(
@@ -87,7 +89,7 @@ class CodeReviewer:
                                 fallback,
                             )
                             return self._generate(fallback, prompt)
-                        except Exception as fallback_exc:  # noqa: BLE001
+                        except genai_errors.APIError as fallback_exc:
                             last_error = fallback_exc
                     break
 

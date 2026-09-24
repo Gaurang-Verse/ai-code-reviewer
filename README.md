@@ -92,12 +92,6 @@ and don't require any real credentials.
 
 ## Known limitations
 
-- **`google-generativeai` is deprecated.** Google has stopped updating this
-  SDK in favor of the newer `google-genai` package. This project still
-  uses `google-generativeai` because it's simpler and was sufficient to
-  get a clean, working, tested version out quickly — but migrating to
-  `google-genai` should be the next thing done here, not indefinitely
-  deferred.
 - Reviews only `.py` files in a PR; other languages are ignored.
 - Relies on Gemini's output being sensible Markdown — there is no
   structured/JSON output or automated validation of review quality yet.
