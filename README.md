@@ -1,4 +1,6 @@
 # AI Code Reviewer
+   ![Tests](https://github.com/Gaurang-Verse/ai-code-reviewer/actions/workflows/tests.yml/badge.svg)
+
 
 An automated code review bot for GitHub pull requests. It fetches the
 changed Python files in a PR, sends each diff to Google's Gemini model for
