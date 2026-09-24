@@ -1,0 +1,30 @@
+# Environments
+venv/
+.venv/
+env/
+bin/
+lib/
+lib64/
+pyvenv.cfg
+
+# Secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local scratch used during development
+cloned_repo/
